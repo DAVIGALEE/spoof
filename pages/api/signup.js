@@ -16,15 +16,22 @@ export default async function handler(req, res) {
     console.log('CONNECTED TO MONGO');
     console.log(req.body)
     console.log('CREATING DOCUMENT');
+    const foundUser = await UserDB.findOne({username});
+    console.log(foundUser)
+    if(foundUser){
+      return res.status(409).send("User already exists")
+    }
     const encrypted_pass = await bcrypt.hash(password,10)
     const user = await UserDB.create({
       username,
       password:encrypted_pass,
      })
+     if(user){
 
+     }
     console.log('CREATED DOCUMENT');
-
-    res.json({ user });
+    res.status(200).send("Successfully created") 
+   
   } catch (error) {
     console.log(error);
     res.json({ error });

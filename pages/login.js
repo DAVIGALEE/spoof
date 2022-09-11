@@ -3,32 +3,37 @@ import {useState} from "react";
 import Link from 'next/link'
 import axios from "axios"; 
 
-export default function InitialPage() {
+export default function Login() {
     const [page, setPage] = useState("");
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    let errorMessage;
     const handleLogin = () => {
         setPage("api/login")
     }
     const handleSignUp = () => {
         setPage("api/signup")
     }
+    
     const RegisterUser = async( e )=> {
         e.preventDefault();
         const credentials = {
             username,
             password
         }
-        const user = await axios.post(
+      await axios.post(
         'api/login',  
         JSON.stringify(credentials),
-        {
-          headers: { "Content-Type": "application/json" },
-          withCredentials: true,
+       ).then(response => { 
+         
+            console.log("as")
         })
-            // Result.user => 'Ada Lovelace'
-            console.log(user)
-      }
+        .catch(error => {
+            console.log(error.response)
+        });
+   
+    }
+   
     return (
         <Container
             className="d-flex justify-content-center align-items-center"
